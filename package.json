@@ -1,7 +1,7 @@
 {
   "name": "@itdeptutahcountygovernment/csrf",
   "description": "primary logic behind csrf tokens, with caching and removing",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "author": "Jonathan Ong <me@jongleberry.com> (http://jongleberry.com)",
   "contributors": [
     "Douglas Christopher Wilson <doug@somethingdoug.com>"
@@ -20,7 +20,9 @@
     "tsscmp": "1.0.6",
     "uid-safe": "2.1.5"
   },
-  "publishConfig": { "registry":"https://npm.pkg.github.com/" },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "devDependencies": {
     "beautify-benchmark": "0.2.4",
     "benchmark": "2.1.4",
