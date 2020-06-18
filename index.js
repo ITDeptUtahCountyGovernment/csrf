@@ -16,6 +16,7 @@ var rndm = require('rndm')
 var uid = require('uid-safe')
 var compare = require('tsscmp')
 var crypto = require('crypto')
+var _ = require('lodash')
 
 /**
  * Module variables.
@@ -25,6 +26,7 @@ var crypto = require('crypto')
 var EQUAL_GLOBAL_REGEXP = /=/g
 var PLUS_GLOBAL_REGEXP = /\+/g
 var SLASH_GLOBAL_REGEXP = /\//g
+var CACHE = []
 
 /**
  * Module exports.
@@ -67,6 +69,7 @@ function Tokens (options) {
 
   this.saltLength = saltLength
   this.secretLength = secretLength
+  this.cache = CACHE
 }
 
 /**
@@ -80,8 +83,14 @@ Tokens.prototype.create = function create (secret) {
   if (!secret || typeof secret !== 'string') {
     throw new TypeError('argument secret is required')
   }
-
-  return this._tokenize(secret, rndm(this.saltLength))
+  let token = this._tokenize(secret, rndm(this.saltLength));
+  _.remove(this.cache, n => {
+    // prunes old tokens
+    return (Date.now() - n.created_at) > (2 * 60 * 60 * 1000);
+  })
+  // insert new token
+  this.cache.push({token, created_at: Date.now()});
+  return token;
 }
 
 /**
@@ -139,7 +148,12 @@ Tokens.prototype.verify = function verify (secret, token) {
   var salt = token.substr(0, index)
   var expected = this._tokenize(secret, salt)
 
-  return compare(token, expected)
+  // remove it from the cache
+  let result = _.remove(this.cache, n => {
+    return n.token == token;
+  })
+  // if its not found in cache, return false
+  return result.length > 0 ? compare(token, expected) : false
 }
 
 /**
