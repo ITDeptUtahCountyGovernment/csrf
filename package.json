@@ -16,6 +16,7 @@
     "test": "test"
   },
   "dependencies": {
+    "redis": "^3.1.0",
     "rndm": "1.2.0",
     "tsscmp": "1.0.6",
     "uid-safe": "2.1.5"

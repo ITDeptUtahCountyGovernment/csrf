@@ -27,7 +27,8 @@ var EQUAL_GLOBAL_REGEXP = /=/g
 var PLUS_GLOBAL_REGEXP = /\+/g
 var SLASH_GLOBAL_REGEXP = /\//g
 var CACHE = []
-
+const redis = require("redis");
+let client = null;
 /**
  * Module exports.
  * @public
@@ -48,7 +49,7 @@ function Tokens (options) {
   if (!(this instanceof Tokens)) {
     return new Tokens(options)
   }
-
+  client = redis.createClient(30303,'10.100.0.45', {password:process.env.REDISPASS, db: process.env.REDISNUM });
   var opts = options || {}
 
   var saltLength = opts.saltLength !== undefined
@@ -84,12 +85,12 @@ Tokens.prototype.create = function create (secret) {
     throw new TypeError('argument secret is required')
   }
   let token = this._tokenize(secret, rndm(this.saltLength));
-  _.remove(this.cache, n => {
-    // prunes old tokens
-    return (Date.now() - n.created_at) > (2 * 60 * 60 * 1000);
-  })
+  //_.remove(this.cache, n => {
+  //  // prunes old tokens
+  //  return (Date.now() - n.created_at) > (2 * 60 * 60 * 1000);
+  //})
   // insert new token
-  this.cache.push({token, created_at: Date.now()});
+  client.setex(token, 6000, token);
   return token;
 }
 
@@ -140,7 +141,7 @@ Tokens.prototype.verify = function verify (secret, token) {
   }
 
   var index = token.indexOf('-')
-
+  
   if (index === -1) {
     return false
   }
@@ -148,12 +149,16 @@ Tokens.prototype.verify = function verify (secret, token) {
   var salt = token.substr(0, index)
   var expected = this._tokenize(secret, salt)
 
-  // remove it from the cache
-  let result = _.remove(this.cache, n => {
-    return n.token == token;
-  })
+
+  let result = client.get(token);
+  client.del(token);
+
+  //// remove it from the cache
+  //let result = _.remove(this.cache, n => {
+  //  return n.token == token;
+  //})
   // if its not found in cache, return false
-  return result.length > 0 ? compare(token, expected) : false
+  return result.length == null ? compare(token, expected) : false
 }
 
 /**
