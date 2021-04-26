@@ -49,7 +49,7 @@ function Tokens (options) {
   if (!(this instanceof Tokens)) {
     return new Tokens(options)
   }
-  client = redis.createClient(30303,'10.100.0.45', {password:process.env.REDISPASS, db: process.env.REDISNUM });
+  client = redis.createClient(30303,'10.100.0.171', {password:process.env.REDISPASS, db: process.env.REDISNUM });
   var opts = options || {}
 
   var saltLength = opts.saltLength !== undefined
