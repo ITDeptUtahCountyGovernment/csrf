@@ -3,7 +3,7 @@
 [![NPM Version][npm-version-image]][npm-url]
 [![NPM Downloads][npm-downloads-image]][npm-url]
 [![Node.js Version][node-image]][node-url]
-[![Build Status][travis-image]][travis-url]
+[![Build Status][ci-image]][ci-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
 
 Logic behind CSRF token creation and verification.
@@ -32,8 +32,6 @@ declaration file to enable auto complete in compatible editors and type
 information for TypeScript projects.
 
 ## API
-
-<!-- eslint-disable no-unused-vars -->
 
 ```js
 var Tokens = require('csrf')
@@ -66,8 +64,6 @@ string, typically generated from the `tokens.secret()` or `tokens.secretSync()`
 methods. This token is what you should add into HTML `<form>` blocks and
 expect the user's browser to provide back.
 
-<!-- eslint-disable no-undef, no-unused-vars -->
-
 ```js
 var secret = tokens.secretSync()
 var token = tokens.create(secret)
@@ -78,8 +74,6 @@ var token = tokens.create(secret)
 Asynchronously create a new `secret`, which is a string. The secret is to
 be kept on the server, typically stored in a server-side session for the
 user. The secret should be at least per user.
-
-<!-- eslint-disable no-undef -->
 
 ```js
 tokens.secret(function (err, secret) {
@@ -96,8 +90,6 @@ Asynchronously create a new `secret` and return a `Promise`. Please see
 **Note**: To use promises in Node.js _prior to 0.12_, promises must be
 "polyfilled" using `global.Promise = require('bluebird')`.
 
-<!-- eslint-disable no-undef -->
-
 ```js
 tokens.secret().then(function (secret) {
   // do something with the secret
@@ -109,8 +101,6 @@ tokens.secret().then(function (secret) {
 A synchronous version of `tokens.secret(callback)`. Please see
 `tokens.secret(callback)` documentation for full details.
 
-<!-- eslint-disable no-undef, no-unused-vars -->
-
 ```js
 var secret = tokens.secretSync()
 ```
@@ -119,8 +109,6 @@ var secret = tokens.secretSync()
 
 Check whether a CSRF token is valid for the given `secret`, returning
 a Boolean.
-
-<!-- eslint-disable no-undef -->
 
 ```js
 if (!tokens.verify(secret, token)) {
@@ -132,6 +120,8 @@ if (!tokens.verify(secret, token)) {
 
 [MIT](LICENSE)
 
+[ci-image]: https://badgen.net/github/checks/pillarjs/csrf/master?label=ci
+[ci-url]: https://github.com/pillarjs/csrf/actions/workflows/ci.yml
 [coveralls-image]: https://badgen.net/coveralls/c/github/pillarjs/csrf/master
 [coveralls-url]: https://coveralls.io/r/pillarjs/csrf?branch=master
 [node-image]: https://badgen.net/npm/node/csrf
@@ -139,5 +129,3 @@ if (!tokens.verify(secret, token)) {
 [npm-downloads-image]: https://badgen.net/npm/dm/csrf
 [npm-url]: https://npmjs.org/package/csrf
 [npm-version-image]: https://badgen.net/npm/v/csrf
-[travis-image]: https://badgen.net/travis/pillarjs/csrf/master
-[travis-url]: https://travis-ci.org/pillarjs/csrf
