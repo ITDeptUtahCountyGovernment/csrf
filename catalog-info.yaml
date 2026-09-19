@@ -17,6 +17,7 @@ metadata:
     itdept.dev/catalog-last-updated: 2026-07-23T23:57:06.882Z
     itdept.dev/linting-enforced: "false"
     itdept.dev/ci-tested: "false"
+    itdept.dev/REMOVE-THIS-ANNOTATION: "true"
 spec:
   type: library
   owner: group:default/gold-team
