@@ -8,15 +8,17 @@ metadata:
     github.com/project-slug: ITDeptUtahCountyGovernment/csrf
     backstage.io/source-location: url:https://github.com/ITDeptUtahCountyGovernment/csrf/
     itdept.dev/language: JavaScript
-    itdept.dev/lines-of-code: "291"
+    itdept.dev/lines-of-code: "456"
     itdept.dev/other-languages: Markdown
     itdept.dev/tech-stack: github-actions,node
     itdept.dev/correct-naming: "false"
     itdept.dev/password-mgmt: none
+    itdept.dev/github-repo: "true"
     itdept.dev/created-at: 2020-06-18T06:10:31Z
-    itdept.dev/catalog-last-updated: 2026-07-23T23:57:06.882Z
+    itdept.dev/catalog-last-updated: 2026-09-24T00:43:56.903Z
     itdept.dev/linting-enforced: "false"
     itdept.dev/ci-tested: "false"
+    itdept.dev/rad-workflow-adopted: "true"
     itdept.dev/REMOVE-THIS-ANNOTATION: "true"
 spec:
   type: library
