@@ -1,0 +1,24 @@
+name: Post-Merge
+on:
+  push:
+    branches:
+      - master
+concurrency:
+  group: post-merge-${{ github.ref }}
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  rad-refresh:
+    name: RAD Simple Catalog
+    permissions:
+      contents: read
+    runs-on: { group: devops-runners }
+    steps:
+      - name: Refresh catalog-info.yaml
+        uses: ITDeptUtahCountyGovernment/IT-RAD@v3
+        with:
+          github-app-id: ${{ secrets.INFISICAL_RAD_GH_APP_ID }}
+          github-app-private-key: ${{ secrets.INFISICAL_RAD_GH_APP_PRIVATE_KEY }}
+          registry_user: ${{ secrets.INFISICAL_HARBOR_PUSH_USER }}
+          registry_token: ${{ secrets.INFISICAL_HARBOR_PUSH_PASS }}
